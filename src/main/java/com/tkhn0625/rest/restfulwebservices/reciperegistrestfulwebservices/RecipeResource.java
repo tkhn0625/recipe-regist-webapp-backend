@@ -17,16 +17,16 @@ public class RecipeResource {
     @Autowired
     private RecipeManagementService recipeService;
 
-    @GetMapping("/users/recipes")
-    public List<Recipe> getAllRecipes(){return recipeService.findAll();}
+    @GetMapping("/users/{username}/recipes")
+    public List<Recipe> getAllRecipes(@PathVariable String username){return recipeService.findAll();}
 
-    @GetMapping("/users/recipes/{id}")
-    public Recipe getTodo(@PathVariable long id){
+    @GetMapping("/users/{username}/recipes/{id}")
+    public Recipe getTodo(@PathVariable String username,@PathVariable long id){
         return recipeService.findById(id);
     }
 
-    @DeleteMapping("/users/recipes/{id}")
-    public ResponseEntity<Void> deleteRecipe(@PathVariable long id){
+    @DeleteMapping("/users/{username}/recipes/{id}")
+    public ResponseEntity<Void> deleteRecipe(@PathVariable String username,@PathVariable long id){
         Recipe recipe = recipeService.deleteById(id);
         if(recipe!=null){
             return ResponseEntity.noContent().build();
@@ -35,15 +35,16 @@ public class RecipeResource {
     }
 
     //Edit/Update a Recipe
-    @PutMapping("/users/todos/{id}")
+    @PutMapping("/users/{username}/todos/{id}")
     public ResponseEntity<Recipe> updateRecipe(
-            @PathVariable long id,@RequestBody Recipe recipe){
+            @PathVariable String username,@PathVariable long id,@RequestBody Recipe recipe){
         Recipe updateRecipe = recipeService.save(recipe);
         return new ResponseEntity<Recipe>(recipe, HttpStatus.OK);
     }
 
-    @PostMapping("/users/todos")
-    public ResponseEntity<Void> createRecipe(@RequestBody Recipe recipe){
+    @PostMapping("/users/{username}/todos")
+    public ResponseEntity<Void> createRecipe(
+            @PathVariable String username,@RequestBody Recipe recipe){
         Recipe createdRecipe = recipeService.save(recipe);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}").buildAndExpand(createdRecipe.getId()).toUri();

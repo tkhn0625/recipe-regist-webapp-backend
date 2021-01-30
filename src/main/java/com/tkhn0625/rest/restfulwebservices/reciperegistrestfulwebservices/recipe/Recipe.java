@@ -3,6 +3,7 @@ package com.tkhn0625.rest.restfulwebservices.reciperegistrestfulwebservices.reci
 import com.fasterxml.jackson.annotation.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
@@ -10,14 +11,16 @@ import java.util.List;
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 @JsonPropertyOrder({
         "cookingName",
         "materials",
         "flow"
 })
 public class Recipe {
+
     @JsonProperty("id")
-    private long id;
+    private Long id;
     @JsonProperty("cookingName")
     private String cookingName;
     @JsonProperty("materials")
